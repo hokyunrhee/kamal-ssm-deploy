@@ -1,0 +1,23 @@
+#!/bin/sh
+
+set -euo pipefail
+
+INSTANCE_ID=$(ruby -ryaml -e "puts YAML.load_file('config/deploy.yml', aliases: true)['x-instance-id']")
+
+echo "Adding ubuntu to docker group on ${INSTANCE_ID}..."
+
+COMMAND_ID=$(aws ssm send-command \
+  --instance-ids "$INSTANCE_ID" \
+  --document-name "AWS-RunShellScript" \
+  --parameters 'commands=["sudo usermod -aG docker ubuntu"]' \
+  --comment "Post Docker install: add ubuntu to docker group" \
+  --output text \
+  --query "Command.CommandId")
+
+echo "Waiting for command ${COMMAND_ID}..."
+
+aws ssm wait command-executed \
+  --command-id "$COMMAND_ID" \
+  --instance-id "$INSTANCE_ID"
+
+echo "Done. ubuntu is now in the docker group."
