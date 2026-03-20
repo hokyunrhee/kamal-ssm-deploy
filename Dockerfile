@@ -2,8 +2,8 @@
 # check=error=true
 
 # This Dockerfile is designed for production, not development. Use with Kamal or build'n'run by hand:
-# docker build -t kamal_private_ec2 .
-# docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name kamal_private_ec2 kamal_private_ec2
+# docker build -t kamal-ssm-deploy .
+# docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name kamal-ssm-deploy kamal-ssm-deploy
 
 # For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
 
