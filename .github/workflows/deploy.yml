@@ -54,6 +54,7 @@ jobs:
         run: bin/kamal deploy
         env:
           INSTANCE_ID: ${{ env.INSTANCE_ID }}
+          KAMAL_REGISTRY_SERVER: ghcr.io
           KAMAL_REGISTRY_USERNAME: ${{ github.actor }}
           KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
