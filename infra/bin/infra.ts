@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import * as cdk from "aws-cdk-lib/core";
 import { Stage } from "../lib";
+import { GitHubActionsKamalDeployStack } from "../lib/stacks";
 
 const app = new cdk.App();
 
@@ -11,3 +12,5 @@ const env = {
 
 new Stage(app, "Dev", { env });
 new Stage(app, "Prod", { env });
+
+new GitHubActionsKamalDeployStack(app, "GitHubActionsKamalDeployStack", { env });

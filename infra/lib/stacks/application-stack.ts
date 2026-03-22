@@ -20,7 +20,8 @@ export class ApplicationStack extends cdk.Stack {
 
     new cdk.CfnOutput(this, "InstanceId", {
       value: publicEc2.instance.instanceId,
-      description: "EC2 Instance ID — connect via: aws ssm start-session --target <id>",
+      description:
+        "EC2 Instance ID — connect via: aws ssm start-session --target <id>",
     });
   }
 }

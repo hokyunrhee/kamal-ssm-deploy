@@ -33,7 +33,10 @@ export class PublicInstance extends Construct {
     const {
       vpc,
       bucket,
-      instanceType = ec2.InstanceType.of(ec2.InstanceClass.T4G, ec2.InstanceSize.MEDIUM),
+      instanceType = ec2.InstanceType.of(
+        ec2.InstanceClass.T4G,
+        ec2.InstanceSize.MEDIUM,
+      ),
       machineImage = ec2.MachineImage.fromSsmParameter(
         "/aws/service/canonical/ubuntu/server/noble/stable/current/arm64/hvm/ebs-gp3/ami-id",
         { os: ec2.OperatingSystemType.LINUX },
@@ -43,7 +46,8 @@ export class PublicInstance extends Construct {
     this.securityGroup = new ec2.SecurityGroup(this, "SecurityGroup", {
       vpc,
       allowAllOutbound: true,
-      description: "Hardened Security Group: ingress from CloudFront prefix list only on 443",
+      description:
+        "Hardened Security Group: ingress from CloudFront prefix list only on 443",
     });
     this.securityGroup.addIngressRule(
       ec2.Peer.prefixList(this.cfPrefixList),
@@ -65,7 +69,11 @@ export class PublicInstance extends Construct {
       sourceDestCheck: true,
     });
 
-    this.instance.role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonSSMManagedInstanceCore"));
+    this.instance.role.addManagedPolicy(
+      iam.ManagedPolicy.fromAwsManagedPolicyName(
+        "AmazonSSMManagedInstanceCore",
+      ),
+    );
 
     bucket?.grantReadWrite(this.instance.role);
   }

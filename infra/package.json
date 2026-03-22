@@ -12,7 +12,9 @@
     "deploy:dev": "cdk deploy 'Dev/*'",
     "deploy:prod": "cdk deploy 'Prod/*'",
     "destroy:dev": "cdk destroy 'Dev/*'",
-    "destroy:prod": "cdk destroy 'Prod/*'"
+    "destroy:prod": "cdk destroy 'Prod/*'",
+    "deploy:github-actions": "cdk deploy GitHubActionsKamalDeployStack",
+    "destroy:github-actions": "cdk destroy GitHubActionsKamalDeployStack"
   },
   "devDependencies": {
     "@types/jest": "^30",
