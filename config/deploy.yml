@@ -4,7 +4,7 @@ service: kamal-ssm-deploy
 # Name of the container image (use your-user/app-name on external registries).
 image: ghcr.io/hokyunrhee/kamal-ssm-deploy
 
-x-instance-id: &instance-id INSTANCE_ID
+x-instance-id: &instance-id <%= ENV.fetch('INSTANCE_ID') %>
 
 # Global setting for all hooks.
 hooks_output: :verbose
