@@ -4,7 +4,7 @@ service: kamal-ssm-deploy
 # Name of the container image (use your-user/app-name on external registries).
 image: ghcr.io/hokyunrhee/kamal-ssm-deploy
 
-x-instance-id: &instance-id <%= ENV.fetch('INSTANCE_ID') %>
+x-instance-id: &instance-id <%= ENV.fetch("INSTANCE_ID") %>
 
 # Global setting for all hooks.
 hooks_output: :verbose
@@ -89,6 +89,9 @@ asset_path: /rails/public/assets
 # Configure the image builder.
 builder:
   arch: arm64
+  cache:
+    type: registry
+    options: "mode=max,image-manifest=true,oci-mediatypes=true"
 
   # # Build image via remote server (useful for faster amd64 builds on arm64 computers)
   # remote: ssh://docker@docker-builder-server
