@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-INSTANCE_ID=$(ruby -ryaml -e "puts YAML.load_file('config/deploy.yml', aliases: true)['x-instance-id']")
+INSTANCE_ID=$(echo "$KAMAL_HOSTS" | cut -d',' -f1)
 
 echo "Adding ubuntu to docker group on ${INSTANCE_ID}..."
 
