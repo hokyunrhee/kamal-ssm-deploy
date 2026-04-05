@@ -27,10 +27,10 @@ servers:
 #
 proxy:
   ssl: false
+  host: re.workingcopy.dev
   app_port: 80
   healthcheck:
     path: /up
-#   host: app.example.com
 
 # Where you keep your container images.
 registry:
