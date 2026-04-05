@@ -9,12 +9,8 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "deploy:dev": "cdk deploy 'Dev/*'",
-    "deploy:prod": "cdk deploy 'Prod/*'",
-    "destroy:dev": "cdk destroy 'Dev/*'",
-    "destroy:prod": "cdk destroy 'Prod/*'",
-    "deploy:github-actions": "cdk deploy GitHubActionsKamalDeployStack",
-    "destroy:github-actions": "cdk destroy GitHubActionsKamalDeployStack"
+    "deploy:production": "cdk deploy 'Production/*'",
+    "destroy:production": "cdk destroy 'Production/*'"
   },
   "devDependencies": {
     "@types/jest": "^30",

@@ -1,10 +1,9 @@
 #!/usr/bin/env node
-import "dotenv/config";
+import { config } from "dotenv";
 import * as cdk from "aws-cdk-lib/core";
 import { Stage } from "../lib";
-import { GitHubActionsKamalDeployStack } from "../lib/stacks";
 
-const app = new cdk.App();
+config({ path: ".env.production" });
 
 const env = {
   account: process.env.CDK_ACCOUNT || process.env.CDK_DEFAULT_ACCOUNT,
@@ -13,7 +12,6 @@ const env = {
   domainNames: process.env.DOMAIN_NAMES!.split(","),
 };
 
-new Stage(app, "Dev", { env });
-new Stage(app, "Prod", { env });
+const app = new cdk.App();
 
-new GitHubActionsKamalDeployStack(app, "GitHubActionsKamalDeployStack", { env });
+new Stage(app, "Production", { env });
