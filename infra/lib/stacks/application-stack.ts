@@ -1,6 +1,8 @@
 import * as cdk from "aws-cdk-lib/core";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
+import * as route53 from "aws-cdk-lib/aws-route53";
+import * as targets from "aws-cdk-lib/aws-route53-targets";
 import { Construct } from "constructs";
 
 import { Cdn, PublicInstance } from "../constructs";
@@ -25,10 +27,19 @@ export class ApplicationStack extends cdk.Stack {
       ),
     });
 
-    new Cdn(this, "Cdn", {
+    const cdn = new Cdn(this, "Cdn", {
       certificate,
       domainNames,
       originDomainName: publicEc2.instance.instancePublicDnsName,
+    });
+
+    domainNames.forEach((domainName) => {
+      const zone = route53.HostedZone.fromLookup(this, `Zone-${domainName}`, { domainName });
+      new route53.ARecord(this, `Alias-${domainName}`, {
+        zone,
+        recordName: domainName,
+        target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(cdn.distribution)),
+      });
     });
 
     new cdk.CfnOutput(this, "InstanceId", {
