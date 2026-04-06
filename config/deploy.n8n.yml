@@ -41,6 +41,8 @@ env:
     N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: false
     N8N_DIAGNOSTICS_ENABLED: false
 
+asset_path: false
+
 volumes:
   - "n8n_data:/home/node/.n8n"
 
