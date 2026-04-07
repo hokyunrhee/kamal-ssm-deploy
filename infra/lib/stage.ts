@@ -18,7 +18,7 @@ export class Stage extends cdk.Stage {
 
     const { certificateArn, domainNames } = props.env;
 
-    const { vpc } = new PersistentStack(this, "Persistences", {
+    const { vpc, bucket } = new PersistentStack(this, "Persistences", {
       useDefaultVpc: true,
     });
 
@@ -30,6 +30,7 @@ export class Stage extends cdk.Stage {
 
     new ApplicationStack(this, "Application", {
       vpc,
+      bucket,
       certificate,
       domainNames,
     });

@@ -1,5 +1,6 @@
 import * as cdk from "aws-cdk-lib/core";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
+import * as s3 from "aws-cdk-lib/aws-s3";
 import { Construct } from "constructs";
 
 export interface PersistentStackProps extends cdk.StackProps {
@@ -9,6 +10,7 @@ export interface PersistentStackProps extends cdk.StackProps {
 export class PersistentStack extends cdk.Stack {
   #useDefaultVpc: boolean;
   vpc: ec2.IVpc;
+  bucket: s3.Bucket;
 
   constructor(scope: Construct, id: string, props?: PersistentStackProps) {
     super(scope, id, props);
@@ -18,6 +20,11 @@ export class PersistentStack extends cdk.Stack {
     this.#useDefaultVpc = useDefaultVpc;
 
     this.vpc = this.#vpc;
+
+    this.bucket = new s3.Bucket(this, "Bucket", {
+      bucketName: "re.workingcopy.dev",
+      removalPolicy: cdk.RemovalPolicy.RETAIN,
+    });
   }
 
   get #vpc() {
