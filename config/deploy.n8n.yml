@@ -1,0 +1,55 @@
+service: n8n
+image: hokyunrhee/n8n
+
+x-instance-id: &instance-id <%= ENV.fetch("INSTANCE_ID") %>
+
+servers:
+  web:
+    - *instance-id
+
+proxy:
+  ssl: false
+  host: n8n.workingcopy.dev
+  app_port: 5678
+  healthcheck:
+    path: /healthz
+
+registry:
+  server: <%= ENV.fetch("KAMAL_REGISTRY_SERVER", "localhost:5555") %>
+  username:
+    - KAMAL_REGISTRY_USERNAME
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+env:
+  secret:
+    - N8N_ENCRYPTION_KEY
+  clear:
+    N8N_HOST: n8n.workingcopy.dev
+    N8N_PROTOCOL: https
+    N8N_PORT: 5678
+    N8N_SECURE_COOKIE: true
+    WEBHOOK_URL: https://n8n.workingcopy.dev/
+    N8N_PROXY_HOPS: 2
+    DB_TYPE: sqlite
+    N8N_BLOCK_ENV_ACCESS_IN_NODE: true
+    GENERIC_TIMEZONE: Asia/Seoul
+    TZ: Asia/Seoul
+    EXECUTIONS_DATA_PRUNE: true
+    EXECUTIONS_DATA_MAX_AGE: 168
+    N8N_RUNNERS_ENABLED: true
+    N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: false
+    N8N_DIAGNOSTICS_ENABLED: false
+
+asset_path: false
+
+volumes:
+  - "n8n_data:/home/node/.n8n"
+
+builder:
+  arch: arm64
+  dockerfile: Dockerfile.n8n
+
+ssh:
+  user: ubuntu
+  proxy_command: aws ec2-instance-connect send-ssh-public-key --instance-id %h --instance-os-user ubuntu --ssh-public-key file://~/.ssh/id_ed25519.pub > /dev/null & aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=22'
