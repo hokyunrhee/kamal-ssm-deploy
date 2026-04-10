@@ -3,6 +3,13 @@
 *.d.ts
 node_modules
 
+# Environment variables
+.env*
+!.env.example
+
 # CDK asset staging directory
 .cdk.staging
 cdk.out
+
+# CDK context file
+cdk.context.json

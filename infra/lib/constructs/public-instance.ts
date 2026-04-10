@@ -47,12 +47,12 @@ export class PublicInstance extends Construct {
       vpc,
       allowAllOutbound: true,
       description:
-        "Hardened Security Group: ingress from CloudFront prefix list only on 443",
+        "Hardened Security Group: ingress from CloudFront prefix list only on 80",
     });
     this.securityGroup.addIngressRule(
       ec2.Peer.prefixList(this.cfPrefixList),
-      ec2.Port.tcp(443),
-      "Allow HTTPS from CloudFront origin-facing IPs only",
+      ec2.Port.tcp(80),
+      "Allow HTTP from CloudFront origin-facing IPs only (TLS offloaded at CloudFront)",
     );
 
     this.instance = new ec2.Instance(this, "Instance", {
