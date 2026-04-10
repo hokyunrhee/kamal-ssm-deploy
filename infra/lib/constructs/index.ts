@@ -1,2 +1,2 @@
-export * from "./kamal-deploy-role";
+export * from "./cdn";
 export * from "./public-instance";
